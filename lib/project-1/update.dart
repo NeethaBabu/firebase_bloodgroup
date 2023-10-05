@@ -11,10 +11,9 @@ class updateDonar extends StatefulWidget {
 class _updateDonarState extends State<updateDonar> {
   String selectedValue = "A+"; // Store the selected value from the dropdown.
   final CollectionReference donor =
-  FirebaseFirestore.instance.collection('donor');
+      FirebaseFirestore.instance.collection('donor');
   TextEditingController donorName = TextEditingController();
   TextEditingController donorphone = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class _updateDonarState extends State<updateDonar> {
 
     donorName.text = args['name'].toString();
     donorphone.text = args['phone'];
-    selectedValue= args['group'];
+    selectedValue = args['group'];
     final docId = args['id'];
     return Scaffold(
       appBar: AppBar(
@@ -59,7 +58,7 @@ class _updateDonarState extends State<updateDonar> {
             Container(
               width: double.infinity, // Make the container take the full width.
               padding:
-              const EdgeInsets.all(10.0), // Add padding to the container.
+                  const EdgeInsets.all(10.0), // Add padding to the container.
               decoration: BoxDecoration(
                 border: Border.all(), // Add a border to the container.
               ),
@@ -101,9 +100,7 @@ class _updateDonarState extends State<updateDonar> {
                 ),
                 onPressed: () {
                   print(args);
-
                 },
-
                 child: const Text('Update'),
               ),
             ),
