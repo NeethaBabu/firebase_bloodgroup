@@ -1,35 +1,43 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class updateDonar extends StatefulWidget {
-  const updateDonar({Key? key});
+class updateDonor extends StatefulWidget {
+  const updateDonor( {Key? key});
 
   @override
-  State<updateDonar> createState() => _updateDonarState();
+  State<updateDonor> createState() => _updateDonorState();
 }
 
-class _updateDonarState extends State<updateDonar> {
+class _updateDonorState extends State<updateDonor> {
   String selectedValue = "A+"; // Store the selected value from the dropdown.
   final CollectionReference donor =
       FirebaseFirestore.instance.collection('donor');
   TextEditingController donorName = TextEditingController();
   TextEditingController donorphone = TextEditingController();
 
+  void updateDonor(docId){
+    final data = {
+      'name':donorName.text,
+      'phone':donorphone.text,
+      'group':selectedValue
+    };
+    donor.doc(docId).update(data);
+  }
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)?.settings.arguments as Map;
-
     donorName.text = args['name'].toString();
     donorphone.text = args['phone'];
     selectedValue = args['group'];
-    final docId = args['id'];
+    final docId= args['id'];
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Update Donar"),
+        title:  Text("Update Donor"),
         backgroundColor: Colors.redAccent,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding:  EdgeInsets.all(30.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -40,7 +48,7 @@ class _updateDonarState extends State<updateDonar> {
                 hintText: 'Name',
               ),
             ),
-            const SizedBox(
+             SizedBox(
               height: 20,
             ),
             TextField(
@@ -52,13 +60,13 @@ class _updateDonarState extends State<updateDonar> {
                 hintText: 'Mobile number',
               ),
             ),
-            const SizedBox(
+             SizedBox(
               height: 20,
             ),
             Container(
               width: double.infinity, // Make the container take the full width.
               padding:
-                  const EdgeInsets.all(10.0), // Add padding to the container.
+                   EdgeInsets.all(10.0), // Add padding to the container.
               decoration: BoxDecoration(
                 border: Border.all(), // Add a border to the container.
               ),
@@ -99,9 +107,9 @@ class _updateDonarState extends State<updateDonar> {
                   primary: Colors.redAccent, // Set the desired background color
                 ),
                 onPressed: () {
-                  print(args);
+                updateDonor(docId);
                 },
-                child: const Text('Update'),
+                child:  Text('Update'),
               ),
             ),
           ],

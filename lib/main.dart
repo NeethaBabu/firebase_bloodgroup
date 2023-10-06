@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
      routes: {
         '/':(context)=>Homepage(),
        '/AddButton':(context)=>AddButton(),
-       '/update':(context)=>updateDonar(),
+       '/update' : (context) => updateDonor(),
      },
       initialRoute: '/',
     );
