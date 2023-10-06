@@ -14,6 +14,9 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   final CollectionReference donor =
       FirebaseFirestore.instance.collection('donor');
+  void deleteDonor(docId) {
+    donor.doc(docId).delete();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +35,13 @@ class _HomepageState extends State<Homepage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: StreamBuilder(
           stream: donor.orderBy('name').snapshots(),
-
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   final DocumentSnapshot donorSnap = snapshot.data.docs[index];
-                   return Padding(
+                  return Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
                       height: 80,
@@ -86,20 +88,21 @@ class _HomepageState extends State<Homepage> {
                               IconButton(
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/update',
-                                  arguments: {
-                                    'group': donorSnap['group'],
-                                    'name': donorSnap['name'],
-                                    'phone': donorSnap['phone'].toString(),
-                                    'id': donorSnap.id,
-                                  });
-
+                                      arguments: {
+                                        'group': donorSnap['group'].toString(),
+                                        'name': donorSnap['name'],
+                                        'phone': donorSnap['phone'].toString(),
+                                        'id': donorSnap.id,
+                                      });
                                 },
                                 icon: Icon(Icons.edit),
                                 iconSize: 30,
                                 color: Colors.indigo,
                               ),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  deleteDonor(donorSnap.id);
+                                },
                                 icon: Icon(Icons.delete),
                                 iconSize: 30,
                                 color: Colors.black54,

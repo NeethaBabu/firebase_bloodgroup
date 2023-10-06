@@ -16,9 +16,9 @@ class _AddButtonState extends State<AddButton> {
   TextEditingController donorphone = TextEditingController();
   void addDonar() {
     final data = {
-      'group': selectedValue ,
+      'group': selectedValue,
       'name': donorName.text,
-       'phone': donorphone.text,
+      'phone': donorphone.text,
     };
     donor.add(data);
   }
@@ -35,7 +35,7 @@ class _AddButtonState extends State<AddButton> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-             TextField(
+            TextField(
               controller: donorName,
               decoration: InputDecoration(
                 border: UnderlineInputBorder(),
@@ -45,7 +45,7 @@ class _AddButtonState extends State<AddButton> {
             const SizedBox(
               height: 20,
             ),
-             TextField(
+            TextField(
               controller: donorphone,
               keyboardType: TextInputType.number,
               maxLength: 10,
@@ -104,7 +104,6 @@ class _AddButtonState extends State<AddButton> {
                   addDonar();
                   Navigator.pop(context);
                 },
-
                 child: const Text('Submit'),
               ),
             ),

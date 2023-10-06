@@ -2,26 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class updateDonor extends StatefulWidget {
-  const updateDonor( {Key? key});
+  const updateDonor({Key? key});
 
   @override
   State<updateDonor> createState() => _updateDonorState();
 }
 
 class _updateDonorState extends State<updateDonor> {
-  String selectedValue = "A+"; // Store the selected value from the dropdown.
+  // String selectedValue = "A+"; // Store the selected value from the dropdown.
+  String updatedValue = "A+";
   final CollectionReference donor =
       FirebaseFirestore.instance.collection('donor');
   TextEditingController donorName = TextEditingController();
   TextEditingController donorphone = TextEditingController();
 
-  void updateDonor(docId){
+  void updateDonor1(docId) {
     final data = {
-      'name':donorName.text,
-      'phone':donorphone.text,
-      'group':selectedValue
+      'name': donorName.text,
+      'phone': donorphone.text,
+      'group': updatedValue
     };
-    donor.doc(docId).update(data);
+    print(updatedValue);
+    donor.doc(docId).update(data).then((value) => Navigator.pop(context));
   }
 
   @override
@@ -29,15 +31,15 @@ class _updateDonorState extends State<updateDonor> {
     final args = ModalRoute.of(context)?.settings.arguments as Map;
     donorName.text = args['name'].toString();
     donorphone.text = args['phone'];
-    selectedValue = args['group'];
-    final docId= args['id'];
+    // updatedValue = 'B+';
+    final docId = args['id'];
     return Scaffold(
       appBar: AppBar(
-        title:  Text("Update Donor"),
+        title: Text("Update Donor"),
         backgroundColor: Colors.redAccent,
       ),
       body: Padding(
-        padding:  EdgeInsets.all(30.0),
+        padding: EdgeInsets.all(30.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -48,7 +50,7 @@ class _updateDonorState extends State<updateDonor> {
                 hintText: 'Name',
               ),
             ),
-             SizedBox(
+            SizedBox(
               height: 20,
             ),
             TextField(
@@ -60,19 +62,18 @@ class _updateDonorState extends State<updateDonor> {
                 hintText: 'Mobile number',
               ),
             ),
-             SizedBox(
+            SizedBox(
               height: 20,
             ),
             Container(
               width: double.infinity, // Make the container take the full width.
-              padding:
-                   EdgeInsets.all(10.0), // Add padding to the container.
+              padding: EdgeInsets.all(10.0), // Add padding to the container.
               decoration: BoxDecoration(
                 border: Border.all(), // Add a border to the container.
               ),
               child: Center(
                 child: DropdownButton<String>(
-                  value: selectedValue, // The selected value in the dropdown.
+                  value: updatedValue, // The selected value in the dropdown.
                   items: <String>[
                     'A+',
                     'A-',
@@ -90,7 +91,8 @@ class _updateDonorState extends State<updateDonor> {
                   }).toList(),
                   onChanged: (String? newValue) {
                     setState(() {
-                      selectedValue = newValue!;
+                      updatedValue = newValue!;
+                      print(updatedValue);
                     });
                   },
                 ),
@@ -107,9 +109,9 @@ class _updateDonorState extends State<updateDonor> {
                   primary: Colors.redAccent, // Set the desired background color
                 ),
                 onPressed: () {
-                updateDonor(docId);
+                  updateDonor1(docId);
                 },
-                child:  Text('Update'),
+                child: Text('Update'),
               ),
             ),
           ],
